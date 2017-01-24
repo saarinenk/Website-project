@@ -1,0 +1,37 @@
+.nav-wrapper {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	background-color: rgba(0,0,0,0.5);
+	height: auto;
+	z-index: 10;
+}
+
+.nav-list {
+	margin: 0;
+	padding: 10px;
+	text-align: center;
+}
+
+.nav-item {
+	list-style: none;
+	display: inline;
+	padding: 0 20px;
+	line-height: 30px;
+	border-bottom: 2px solid transparent;
+	transition: all 0.2s ease;
+}
+
+.nav-title {
+	color: white;
+	text-decoration: none;
+	font-family: 'Raleway';
+}
+
+.nav-item:hover {
+	border-color: #ff2800;
+}
+
+.nav-item:hover .nav-title {
+	color: #ff2800;
+}

@@ -1,0 +1,34 @@
+.header {
+	text-align: center;
+	padding-top: 10%;
+	width: 10%;
+}
+
+.header-title {
+	color: #202020;
+	width: 10%;
+	max-width: 80%;
+	top: 80px;
+	position: relative;
+	font-family: 'Raleway';
+}
+
+.header-image {
+	padding-top: 20%;
+	width: 100%;
+	text-align: center;	
+}
+
+.header-wrapper {
+	margin: 0 auto;
+	max-width: 80%;
+	height: auto;
+	position: relative;
+}
+
+@media screen and (min-width: 850px) {
+	.header-image {
+		padding-top: 25px;
+		width: 80%;
+	}
+}

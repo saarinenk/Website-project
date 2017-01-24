@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="author" content="Katri Saarinen"/>
+		<meta name="description" content="Älykäs Jyväskylä"/>
+		<link rel="shortcut icon" href="jfavicon.ico"/>
+		<title>Älykäs Jyväskylä - Peli</title>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+		<link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="nettisivut_style.css">
+    	<link rel="stylesheet" href="bootstrap.css">
+        <link rel="stylesheet" href="normalize.css">
+        <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+
+      <style type="text/css" src="canvas.css"></style>
+  		<script type="text/javascript" src="player.js"></script>
+  		<script type="text/javascript" src="enemy.js"></script>
+  		<script type="text/javascript" src="animation.js"></script>
+
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+      <script type="text/javascript" src="https://cdn.firebase.com/v0/firebase.js"></script>
+
+	</head>
+
+	<body>
+		<div class="nav">
+      <div class="container">
+        <ul class="nav nav-pills pull-left">
+			<li><a href="index.html">Etusivu</a></li>
+		</ul>
+        <ul class="nav nav-pills pull-right">
+			<li><a href="Suunnitelma.html">Suunnitelma</a></li>
+			<li><a href="Aikataulu.html">Aikataulu</a></li>
+			<li><a href="Video.html">Video</a></li>
+			<li class="active"><a href="Peli.html">Canvas-peli</a></li>
+            <li><a href="Peli2.html">Peliprojekti</a></li>
+            <li><a href="2020.html">Media</a></li>
+            <li><a href="contact.html">Yhteystiedot</a></li>
+		</ul>
+      </div>
+    </div>
+
+    <div class="header2">
+      <div class="container">
+        <h1><span class="header1">Älykäs Jyväskylä</span></h1>
+      </div>
+    </div>
+
+    	<div id="game">
+        <h1 style="color:#1589FF; font-weight:bold"><i class="glyphicon glyphicon-tower"></i> Parempi Jyväskylä -peli</h1>
+        <p>Auta Luigia pysymään erossa autojen vaarallisista ilmakehään kertyvistä hiilidioksidipäästöistä!</p>
+        <p>Luigi ei saa koskea hiilidioksidipalloihin - voit poistaa niitä hiiren vasemmalla painikkeella.</p>
+        <p>Voit lisätä tai vähentää Luigin nopeutta pelin alakulman + ja - -nappuloita painamalla.</p>
+        <p>Varo! Hiilidioksidipalloja tulee jatkuvasti lisää!</p>
+    	<canvas id="canvas"> </canvas>
+   		</div>
+
+
+
+<div id="highscoreboard">
+
+<h1> Tallenna tuloksesi </h1>
+    <input type="text" id="nameInput" placeholder="Nimi">
+    <input type="text" id="scoreInput" placeholder="Tulos" readonly>
+    <h1> Tulokset: </h1>
+    <table id="leaderboardTable" style="width: 500px;"></table>
+    <script type="text/javascript"></script>
+
+<div id="highestscore">
+  Paras tulos tähän asti: <span id="highestScoreDiv"></span>
+</div>
+
+<script type="text/javascript">
+  var LEADERBOARD_SIZE = 5;
+
+  // Build some firebase references.
+  var rootRef = new Firebase('https://highscoresaarink5.firebaseio.com/');
+  var scoreListRef = rootRef.child("scoreList");
+  var highestScoreRef = rootRef.child("highestScore");
+
+  // Keep a mapping of firebase locations to HTML elements, so we can move / remove elements as necessary.
+  var htmlForPath = {};
+
+  // Helper function that takes a new score snapshot and adds an appropriate row to our leaderboard table.
+  function handleScoreAdded(scoreSnapshot, prevScoreName) {
+    var newScoreRow = $("<tr/>");
+    newScoreRow.append($("<td/>").append($("<em/>").text(scoreSnapshot.val().name)));
+    newScoreRow.append($("<td/>").text(scoreSnapshot.val().score));
+
+    // Store a reference to the table row so we can get it again later.
+    htmlForPath[scoreSnapshot.name()] = newScoreRow;
+
+    // Insert the new score in the appropriate place in the table.
+    if (prevScoreName === null) {
+      $("#leaderboardTable").append(newScoreRow);
+    }
+    else {
+      var lowerScoreRow = htmlForPath[prevScoreName];
+      lowerScoreRow.before(newScoreRow);
+    }
+  }
+
+  // Helper function to handle a score object being removed; just removes the corresponding table row.
+  function handleScoreRemoved(scoreSnapshot) {
+    var removedScoreRow = htmlForPath[scoreSnapshot.name()];
+    removedScoreRow.remove();
+    delete htmlForPath[scoreSnapshot.name()];
+  }
+
+  // Create a view to only receive callbacks for the last LEADERBOARD_SIZE scores
+  var scoreListView = scoreListRef.limit(LEADERBOARD_SIZE);
+
+  // Add a callback to handle when a new score is added.
+  scoreListView.on('child_added', function (newScoreSnapshot, prevScoreName) {
+    handleScoreAdded(newScoreSnapshot, prevScoreName);
+  });
+
+  // Add a callback to handle when a score is removed
+  scoreListView.on('child_removed', function (oldScoreSnapshot) {
+    handleScoreRemoved(oldScoreSnapshot);
+  });
+
+  // Add a callback to handle when a score changes or moves positions.
+  var changedCallback = function (scoreSnapshot, prevScoreName) {
+    handleScoreRemoved(scoreSnapshot);
+    handleScoreAdded(scoreSnapshot, prevScoreName);
+  };
+  scoreListView.on('child_moved', changedCallback);
+  scoreListView.on('child_changed', changedCallback);
+
+  // When the user presses enter on scoreInput, add the score, and update the highest score.
+  $("#nameInput").keypress(function (e) {
+    if (e.keyCode == 13) {
+      var newScore = Number($("#scoreInput").val());
+      var name = $("#nameInput").val();
+      $("#scoreInput").val("");
+
+      if (name.length === 0)
+        return;
+
+      var userScoreRef = scoreListRef.child(name);
+
+      // Use setWithPriority to put the name / score in Firebase, and set the priority to be the score.
+      userScoreRef.setWithPriority({ name:name, score:newScore }, newScore);
+
+      // Track the highest score using a transaction.  A transaction guarantees that the code inside the block is
+      // executed on the latest data from the server, so transactions should be used if you have multiple
+      // clients writing to the same data and you want to avoid conflicting changes.
+      highestScoreRef.transaction(function (currentHighestScore) {
+        if (currentHighestScore === null || newScore > currentHighestScore) {
+          // The return value of this function gets saved to the server as the new highest score.
+          return newScore;
+        }
+        // if we return with no arguments, it cancels the transaction.
+        return;
+      });
+    }
+  });
+
+  // Add a callback to the highest score in Firebase so we can update the GUI any time it changes.
+  highestScoreRef.on('value', function (newHighestScore) {
+    $("#highestScoreDiv").text(newHighestScore.val());
+  });
+
+</script>
+</div>
+
+   		
+
+        <footer class="footer container-full pad">
+			<p class="light small"><i class="fa fa-copyright"></i> Copyright 2016 by <span class="vcard"> <span class="fn">Katri Saarinen, Henri Huttunen ja Venla Väärälä</span>, <span class="org">Aalto-yliopisto</span></span> | <a href="http://europa.eu/index_en.htm">EU</a> | <a href="http://www.jyvaskyla.fi">Jyväskylä <img src="https://goo.gl/Lj1JHL" alt="Image not found"></a>
+            </p>
+		</footer>
+
+	</body>
+</html>

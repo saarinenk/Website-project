@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="author" content="Katri Saarinen"/>
+		<meta name="description" content="Älykäs Jyväskylä"/>
+		<link rel="shortcut icon" href="jfavicon.ico"/>
+		<title>Älykäs Jyväskylä - Peli2</title>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+		<link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
+        
+		<link rel="stylesheet" href="nettisivut_style.css">
+    	<link rel="stylesheet" href="bootstrap.css">
+        <link rel="stylesheet" href="normalize.css">
+        <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+
+        <script type="text/javascript" src="Phaser.js"></script>
+        
+        <script type="text/javascript" src="Peli2.js"></script>
+        <script type="text/javascript" src="Summer.js"></script>
+        <script type="text/javascript" src="Fall.js"></script>
+        <script type="text/javascript" src="Winter.js"></script>
+        
+        <script type="text/javascript" src="Boot.js"></script>
+        <script type="text/javascript" src="gameover.js"></script>
+        <script type="text/javascript" src="gameover2.js"></script>
+        <script type="text/javascript" src="gameover3.js"></script>
+        <script type="text/javascript" src="gameover4.js"></script>
+        <script type="text/javascript" src="directions.js"></script>
+        <script type="text/javascript" src="preload.js"></script>
+        <script type="text/javascript" src="gametitle.js"></script>
+        <script type="text/javascript" src="win.js"></script>
+        
+
+
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        
+    <script>
+        (function() {
+    var game = new Phaser.Game(640, 480, Phaser.CANVAS, 'game-area', 'game');
+            
+    game.state.add("GameOver1", GameOver);
+    game.state.add("GameOver2", GameOver2);
+    game.state.add("GameOver3", GameOver3);
+    game.state.add("GameOver4", GameOver4);
+    game.state.add("Boot", Boot);
+    game.state.add("Directions", Directions);
+    game.state.add("Preload", Preload);
+    game.state.add("GameTitle", GameTitle);
+    game.state.add("Peli2", PhaserGame);
+    game.state.add("Summer", Summer);
+    game.state.add("Fall", Fall);
+    game.state.add("Winter", Winter);
+    game.state.add("Win", Win);
+            
+    game.state.start("Boot");
+                        
+        })();
+        </script>
+        
+    <script type="text/javascript">
+            WebFontConfig = {
+                google: { families: [ 'Orbitron::latin' ] }
+            };
+        (function() {
+        var wf = document.createElement('script');
+        wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+        wf.type = 'text/javascript';
+        wf.async = 'true';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(wf, s);
+      })(); 
+    </script>
+
+	</head>
+
+	<body>
+		<div class="nav">
+      <div class="container">
+        <ul class="nav nav-pills pull-left">
+			<li><a href="index.html">Etusivu</a></li>
+		</ul>
+        <ul class="nav nav-pills pull-right">
+			<li><a href="Suunnitelma.html">Suunnitelma</a></li>
+			<li><a href="Aikataulu.html">Aikataulu</a></li>
+			<li><a href="Video.html">Video</a></li>
+            <li><a href="Peli.html">Canvas-peli</a></li>
+			<li class="active"><a href="Peli2.html">Peliprojekti</a></li>
+            <li><a href="2020.html">Media</a></li>
+            <li><a href="contact.html">Yhteystiedot</a></li>
+		</ul>
+      </div>
+    </div>
+
+    <div class="header2">
+      <div class="container">
+        <h1><span class="header1">Älykäs Jyväskylä</span></h1>
+      </div>
+    </div>
+
+    	<div id="game">
+        <h1 style="color:#1589FF; font-weight:bold"><i class="glyphicon glyphicon-knight"></i> Jyväskyläpeli</h1>
+        <p>Auta bussia keräämään matkustajat kyytiin ja pääsemään määränpäähän ennen kuin EU:n päästörajoitukset ylittyvät!<br>
+        Pelaa käyttämällä nuolinäppäimiä - pidä aina seuraavaa käännöstä varten haluamaasi näppäintä pohjassa, jottet suistu tieltä.<br>
+        Pelin vasemmasta yläkulmasta voit myös pysäyttää pelin. Onnea matkaan!
+        </p>
+            
+            <br>
+            <div id="game-area"></div>
+
+   		</div>
+   		
+
+        <footer class="footer container-full pad">
+			<p class="light small"><i class="fa fa-copyright"></i> Copyright 2016 by <span class="vcard"> <span class="fn">Katri Saarinen, Henri Huttunen ja Venla Väärälä</span>, <span class="org">Aalto-yliopisto</span></span> | <a href="http://europa.eu/index_en.htm">EU</a> | <a href="http://www.jyvaskyla.fi">Jyväskylä <img src="https://goo.gl/Lj1JHL" alt="Image not found"></a>
+            </p>
+		</footer>
+
+	</body>
+</html>

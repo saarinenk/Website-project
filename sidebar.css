@@ -1,0 +1,34 @@
+.sidebar-title {
+	padding: 25px;
+	margin-bottom: 10px;
+	text-align: center;
+	font-size: 1.3em;
+}
+
+.sidebar-link {
+	list-style: none;
+	padding-left: 10px;
+	margin-bottom: 5px;
+	text-align: left;
+}
+
+.sidebar-text {
+	padding: 10px;
+	font-size: 0.9em;
+}
+
+.sidebar-image {
+	padding: 8px;
+	max-width: 35%;
+}
+
+
+@media screen and (min-width: 800px) {
+	.sidebar-wrapper {
+		background: none;
+	}
+
+	.sidebar-image {
+		max-width: 80%;
+	}
+}
