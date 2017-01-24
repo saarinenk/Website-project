@@ -1,0 +1,27 @@
+
+/* Use border-box to make borders and padding appear on the insides of elements,
+   so that the size of the element stays the same. */
+* {
+	box-sizing: border-box;	
+}
+
+/* Default height for all elements to match height of parent */
+*:not(iframe) {
+	height: inherit;
+} 
+
+html { 
+  background: url(background.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+* {
+	font-family: 'Raleway'
+}
+
+* {
+	font-size: 0.97em;
+}

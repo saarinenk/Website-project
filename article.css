@@ -1,0 +1,52 @@
+.article-wrapper {
+	border-bottom: 1px solid black;
+}
+
+.article {
+	text-align: center;
+	margin-top: 10px;
+	float: none;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 900px;
+}
+
+.article .title {
+	padding: 10px;
+	float: none;
+	border-bottom: 1px solid #ff2800;
+	color: black;
+	font-size: 1.3em;
+}
+
+.article p {
+	padding: 10px;
+	width: auto;
+}
+
+.article img, .article iframe {
+	display:inline-block;
+	padding: 20px;
+	max-width: 50%;
+}
+
+.article iframe {
+	border: 0;
+}
+
+.article img {
+	float:left;
+}
+
+
+@media screen and (min-width: 800px) {
+	.article-wrapper {
+		border-bottom: none;
+		border-right: 1px solid #ff2800;
+	}
+
+#canvas {
+  background: black;
+}
+
+}
